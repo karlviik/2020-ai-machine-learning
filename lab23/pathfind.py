@@ -16,12 +16,12 @@ def get_neighbouring_coords(graph, coord):
     return neighbours
 
 
-def construct_path(came_from: dict, goal: tuple):
+def construct_path(came_from: dict, goal: tuple, start: tuple):
     path = [goal]
     pos = goal
     while True:
         pos = came_from[pos]
-        if pos:
+        if pos is not start:
             path.append(pos)
         else:
             break
@@ -76,8 +76,8 @@ def breadth_first_search(lava_map_tuple):
         else:
             continue
         break
-    print(f"Breath first search made {iteration_counter} cycles.")
-    return construct_path(came_from, goal)
+    print(f"Breadth first search made {iteration_counter} cycles.")
+    return construct_path(came_from, goal, start)
 
 
 def greedy_search(lava_map_tuple):
@@ -110,7 +110,7 @@ def greedy_search(lava_map_tuple):
             continue
         break
     print(f"Greedy search made {iteration_counter} cycles.")
-    return construct_path(came_from, goal)
+    return construct_path(came_from, goal, start)
 
 
 def a_star_search(lava_map_tuple):
@@ -147,7 +147,7 @@ def a_star_search(lava_map_tuple):
             continue
         break
     print(f"A* search made {iteration_counter} cycles.")
-    return construct_path(came_from, goal)
+    return construct_path(came_from, goal, start)
 
 
 
@@ -186,8 +186,8 @@ lava_map2 = [
     "                s              ",
 ]
 maps = [
-    read_start_and_goal_from_map(lava_map1),
-    read_start_and_goal_from_map(lava_map2),
+    # read_start_and_goal_from_map(lava_map1),
+    # read_start_and_goal_from_map(lava_map2),
     read_map_from_file("cave300x300"),
     read_map_from_file("cave600x600"),
     read_map_from_file("cave900x900")
