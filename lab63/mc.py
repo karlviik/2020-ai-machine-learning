@@ -1,5 +1,6 @@
 import random
 
+
 def make_move(pos, move):
 	# move is column of where to drop the ball
 	pos["empty"] -= 1
@@ -124,6 +125,7 @@ def play_game(player_num):
 				print(f"Winner is {'X' if evaluation[1] == 1 else 'O'}")
 			else:
 				print("Draw")
+			dump_pos(pos)
 
 
 # returns tuple
