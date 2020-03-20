@@ -69,16 +69,76 @@ def resolution_solver(KB, neg_alpha):
 	return False
 
 
-KB = [  # 1P, 2Q, 3L, 4M, 5B, 6A
-	[-1, 2],
-	[-3, -4, 1],
-	[-5, -3, 4],
-	[-6, -1, 3],
-	[-6, -5, 3],
-	# [6],
-	[5]
-]
+def generate_rules():
+	moves = [(1, 0), (0, 1), (-1, 0), (0, -1)]
+	rules = []
+	for x in range(1, 6):
+		for y in range(1, 6):
+			for z in [1, 2]:
+				pos = x * 100 + y * 10 + z
+				neighbours = []
+				for move in moves:
+					x2 = x + move[0]
+					y2 = y + move[1]
+					if 0 < x2 < 6 and 0 < y2 < 6:
+						neighbours.append(x2 * 100 + y2 * 10 + z + 2)
+				rules.append([-pos] + neighbours)
+				for neighbour in neighbours:
+					rules.append([pos, -neighbour])
+	return rules
 
-neg = [-2]
 
-print(resolution_solver(KB, neg))
+def add_data(KB: list, x, y, listofstates):
+	possiblestates = {1, 2, 3, 4}
+	listofstates = set(listofstates)
+	KB.extend([[x * 100 + y * 10 + a] for a in listofstates])
+	KB.extend([[-(x * 100 + y * 10 + a)] for a in possiblestates.difference(listofstates)])
+
+# KB = [  # 1P, 2Q, 3L, 4M, 5B, 6A
+# 	[-1, 2],
+# 	[-3, -4, 1],
+# 	[-5, -3, 4],
+# 	[-6, -1, 3],
+# 	[-6, -5, 3],
+# 	# [6],
+# 	[5]
+# ]
+#
+# neg = [-2]
+
+# print(resolution_solver(KB, neg))
+
+KB = generate_rules()
+print(len(KB))
+#  1 (smell), 2 (breeze), 3 (beast), 4 (pit), 5 (glitter). Negative number for neg state
+add_data(KB, 1, 1, [])
+add_data(KB, 1, 2, [2])
+add_data(KB, 2, 2, [1])
+add_data(KB, 2, 1, [2])
+add_data(KB, 3, 2, [2])
+add_data(KB, 3, 3, [1])
+add_data(KB, 4, 2, [])
+
+print("Pos 1, 3 has pit?", resolution_solver(KB, [-134]))
+print("Pos 1, 3 has beast?", resolution_solver(KB, [-133]))
+print("Pos 2, 3 has pit?", resolution_solver(KB, [-234]))
+print("Pos 2, 3 has beast?", resolution_solver(KB, [-233]))
+print("Pos 3, 4 has pit?", resolution_solver(KB, [-344]))
+print("Pos 3, 4 has beast?", resolution_solver(KB, [-343]))
+print("Pos 4, 3 has pit?", resolution_solver(KB, [-434]))
+print("Pos 4, 3 has beast?", resolution_solver(KB, [-433]))
+print("Pos 3, 1 has pit?", resolution_solver(KB, [-314]))
+print("Pos 3, 1 has beast?", resolution_solver(KB, [-313]))
+print("Pos 4, 1 has pit?", resolution_solver(KB, [-414]))
+print("Pos 4, 1 has beast?", resolution_solver(KB, [-413]))
+print("Pos 4, 1 has breeze?", resolution_solver(KB, [-412]))
+print("Pos 4, 1 has smell?", resolution_solver(KB, [-411]))
+print()
+print("Is pos 1 3 safe?", resolution_solver(KB, [133, 134]))
+print("Is pos 2 3 safe?", resolution_solver(KB, [233, 234]))
+print("Is pos 3 4 safe?", resolution_solver(KB, [343, 344]))
+print("Is pos 4 3 safe?", resolution_solver(KB, [433, 434]))
+print("Is pos 3 1 safe?", resolution_solver(KB, [313, 314]))
+print("Is pos 4 1 safe?", resolution_solver(KB, [413, 414]))
+
+
