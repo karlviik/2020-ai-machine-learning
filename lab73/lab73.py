@@ -72,15 +72,15 @@ def resolution_solver(KB, neg_alpha):
 def generate_rules():
 	moves = [(1, 0), (0, 1), (-1, 0), (0, -1)]
 	rules = []
-	for x in range(1, 6):
-		for y in range(1, 6):
+	for x in range(1, 5):
+		for y in range(1, 5):
 			for z in [1, 2]:
 				pos = x * 100 + y * 10 + z
 				neighbours = []
 				for move in moves:
 					x2 = x + move[0]
 					y2 = y + move[1]
-					if 0 < x2 < 6 and 0 < y2 < 6:
+					if 0 < x2 < 6 and 0 < y2 < 5:
 						neighbours.append(x2 * 100 + y2 * 10 + z + 2)
 				rules.append([-pos] + neighbours)
 				for neighbour in neighbours:
