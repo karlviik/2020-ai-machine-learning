@@ -26,8 +26,8 @@ alive_at(Nimi, Year) :-
 	not(naturally_deceased_by(Nimi, Year)).
 
 killed(Nimi) :-
-	all_dead(City, Year),
 	lives_in(City, Nimi),
+	all_dead(City, Year),
 	alive_at(Nimi, Year).
 
 deceased(Nimi) :-
