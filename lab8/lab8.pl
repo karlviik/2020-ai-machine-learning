@@ -5,9 +5,6 @@ man(jaan).
 
 max_lifespan(mortal, 150).
 
-mortal(X) :-
-	man(X).
-
 lives_in(pompej, marcus).
 lives_in(pompej, francesco).
 
@@ -16,6 +13,9 @@ all_dead(pompej, 79).
 birth(marcus, 40).
 birth(jaan, 1977).
 birth(francesco, 1989).
+
+mortal(X) :-
+	man(X).
 
 naturally_deceased_by(Nimi, Year) :-
 	mortal(Nimi), birth(Nimi, Birth), max_lifespan(mortal, Span), (Birth + Span) < Year.
